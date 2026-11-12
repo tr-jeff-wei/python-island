@@ -39,7 +39,7 @@ const createQuestion = (
   reward: 20 + difficulty * 10,
 });
 
-export const DEFAULT_QUESTIONS: Question[] = [
+const DEFAULT_QUESTIONS_ZH: Question[] = [
   // 變數運算
   createQuestion('variable_01', 'variable', 1, '執行下方程式碼後，x 的值是多少？', ['5', '"5"', 'x', '未定義'], 0, '等號將右側的整數 5 指派給變數 x。', `x = 5`),
   createQuestion('variable_02', 'variable', 1, 'Python 中，哪個符號用來將值指派給變數？', ['==', '=', ':', '->'], 1, '單一等號 = 是指派運算子；== 用於比較是否相等。'),
@@ -133,6 +133,74 @@ greet("Amy")`),
   createQuestion('func_10', 'func', 2, '函式的區域變數通常可以在哪裡直接使用？', ['整個程式的任何地方', '只在定義它的函式內', '只在其他模組中', '只能在 if 區塊內'], 1, '區域變數的作用範圍通常限於定義它的函式內。'),
 ];
 
+const DEFAULT_QUESTION_TRANSLATIONS: Record<string, Pick<Question, 'questionEn' | 'optionsEn' | 'explanationEn'>> = {
+  variable_01: { questionEn: 'After running the code below, what is the value of x?', optionsEn: ['5', '"5"', 'x', 'Undefined'], explanationEn: 'The assignment operator assigns the integer 5 on the right to the variable x.' },
+  variable_02: { questionEn: 'Which symbol is used to assign a value to a variable in Python?', optionsEn: ['==', '=', ':', '->'], explanationEn: 'A single equals sign (=) is the assignment operator; == compares values for equality.' },
+  variable_03: { questionEn: 'Which of these is a valid Python variable name?', optionsEn: ['2score', 'user-name', 'user_name', 'class'], explanationEn: 'Variable names cannot start with a digit, contain hyphens, or use reserved keywords.' },
+  variable_04: { questionEn: 'What is the result after running the code below?', optionsEn: ['5', '9', '72', '14'], explanationEn: 'The result of 7 + 2 is 9.' },
+  variable_05: { questionEn: 'What does the code below print?', optionsEn: ['3.33', '3', '1', '4'], explanationEn: '// performs integer division and discards the fractional part, so the result is 3.' },
+  variable_06: { questionEn: 'What does the code below print?', optionsEn: ['3', '1', '0', '3.33'], explanationEn: '% returns the remainder. Dividing 10 by 3 leaves a remainder of 1.' },
+  variable_07: { questionEn: 'After running the code below, what is the value of x?', optionsEn: ['1', '4', '7', '12'], explanationEn: 'x += 3 is equivalent to x = x + 3, so x becomes 7.' },
+  variable_08: { questionEn: 'Which value has the float data type?', optionsEn: ['8', '"8.0"', '8.0', 'True'], explanationEn: 'The number 8.0, which includes a decimal point, is a floating-point number (float).' },
+  variable_09: { questionEn: 'What does the code below print?', optionsEn: ['int', 'str', 'bool', 'boolean'], explanationEn: 'True is a Boolean value, and its type name is bool.' },
+  variable_10: { questionEn: 'What does the code below print?', optionsEn: ['2 5', '5 2', '(2, 5)', 'Error'], explanationEn: 'Multiple assignment assigns 2 to x and 5 to y in order. print separates values with spaces by default.' },
+  loop_01: { questionEn: 'Which values does i take in order in the code below?', optionsEn: ['1, 2, 3', '0, 1, 2', '0, 1, 2, 3', '3, 2, 1'], explanationEn: 'range(3) starts at 0 and stops before 3, so the values are 0, 1, and 2.' },
+  loop_02: { questionEn: 'What does the code below print?', optionsEn: ['0, 1, 2, 3', '1, 2, 3', '1, 2, 4', '2, 3, 4'], explanationEn: 'range(1, 4) includes the starting value 1 but excludes the ending value 4.' },
+  loop_03: { questionEn: 'Which keyword is commonly used to repeat a block of code?', optionsEn: ['repeat', 'loop', 'for', 'again'], explanationEn: 'Python uses for or while loops to repeat code.' },
+  loop_04: { questionEn: 'How many times will “Hi” be printed by the code below?', optionsEn: ['3 times', '4 times', '5 times', 'Infinite times'], explanationEn: 'range(4) produces four values, so the loop runs four times.' },
+  loop_05: { questionEn: 'After running the code below, what is the value of total?', optionsEn: ['3', '6', '10', '4'], explanationEn: 'The loop adds 1, 2, and 3, giving a total of 6.' },
+  loop_06: { questionEn: 'When does a while loop continue running?', optionsEn: ['While the condition is True', 'While the condition is False', 'Only once', 'When it encounters a variable'], explanationEn: 'A while loop keeps running as long as its condition evaluates to True.' },
+  loop_07: { questionEn: 'What does break do inside a loop?', optionsEn: ['Skips the current iteration', 'Immediately exits the loop', 'Restarts the program', 'Pauses for one second'], explanationEn: 'break exits the loop it is currently in.' },
+  loop_08: { questionEn: 'What does continue do inside a loop?', optionsEn: ['Ends the entire program', 'Exits the function', 'Skips the rest of this iteration and starts the next one', 'Stops the loop forever'], explanationEn: 'continue skips the rest of the current iteration and proceeds to the next one.' },
+  loop_09: { questionEn: 'What does the code below print?', optionsEn: ['2, 4, 6', '2, 4, 6, 8', '1, 3, 5, 7', '2, 8'], explanationEn: 'range(start, stop, step) increases by 2 and excludes the ending value 8.' },
+  loop_10: { questionEn: 'What might happen when the code below runs?', optionsEn: ['The loop runs only once', 'The program enters an infinite loop', 'x automatically becomes 5', 'Python exits the loop automatically'], explanationEn: 'x remains 1, so the condition stays True and the loop never ends on its own.' },
+  ifelse_01: { questionEn: 'Which keyword starts a conditional statement in Python?', optionsEn: ['when', 'if', 'check', 'case'], explanationEn: 'In Python, a conditional statement starts with if followed by a condition.' },
+  ifelse_02: { questionEn: 'What is the result after running the code below?', optionsEn: ['True', 'False', '3', '2'], explanationEn: '3 is greater than 2, so the comparison evaluates to True.' },
+  ifelse_03: { questionEn: 'Which keyword is commonly used for an alternative when an if condition is false?', optionsEn: ['otherwise', 'else', 'then', 'elif'], explanationEn: 'else handles the case where the preceding if condition is false.' },
+  ifelse_04: { questionEn: 'Which operator means “not equal to”?', optionsEn: ['=', '==', '!=', '<>'], explanationEn: 'Python uses != to check whether two values are different.' },
+  ifelse_05: { questionEn: 'What is the result after running the code below?', optionsEn: ['True', 'False', '80', 'Error'], explanationEn: '80 is greater than or equal to 60, so the condition is true.' },
+  ifelse_06: { questionEn: 'What is elif used for in Python?', optionsEn: ['Ending an if block', 'Adding another conditional branch', 'Repeating a condition', 'Defining a function'], explanationEn: 'elif is short for “else if” and checks additional conditions between if and else.' },
+  ifelse_07: { questionEn: 'What does the code below print?', optionsEn: ['True', 'False', 'None', 'Error'], explanationEn: 'With and, both sides must be True for the result to be True.' },
+  ifelse_08: { questionEn: 'What does the code below print?', optionsEn: ['True', 'False', 'None', 'Error'], explanationEn: 'With or, the result is True if either side is True.' },
+  ifelse_09: { questionEn: 'What does the code below print?', optionsEn: ['True', 'False', '4', '0'], explanationEn: 'If x is divisible by 2, the condition is true and prints True; otherwise it prints False.' },
+  ifelse_10: { questionEn: 'How does Python mark the code inside an if block?', optionsEn: ['By wrapping it in braces', 'By adding a semicolon to each line', 'By using indentation', 'By using begin and end'], explanationEn: 'Python uses consistent indentation to mark code blocks.' },
+  inout_01: { questionEn: 'Which Python function displays text on the screen?', optionsEn: ['show()', 'echo()', 'print()', 'write_line()'], explanationEn: 'print() outputs the specified content to the screen.' },
+  inout_02: { questionEn: 'Which Python function reads user input?', optionsEn: ['scan()', 'input()', 'read_key()', 'get()'], explanationEn: 'input() reads one line of text entered by the user.' },
+  inout_03: { questionEn: 'What is displayed after running the code below?', optionsEn: ['"Hello"', 'Hello', 'print Hello', 'Nothing'], explanationEn: 'print() outputs the contents of a string without displaying its quotation marks.' },
+  inout_04: { questionEn: 'What type of value does input() return by default?', optionsEn: ['int', 'float', 'str', 'bool'], explanationEn: 'Even when the input looks like a number, input() returns a string by default.' },
+  inout_05: { questionEn: 'Which expression converts user input to an integer?', optionsEn: ['input(int)', 'int(input())', 'str(input())', 'integer(input())'], explanationEn: 'int() converts an input string to an integer when possible.' },
+  inout_06: { questionEn: 'What does the code below print?', optionsEn: ['AB', 'A B', 'A,B', '["A", "B"]'], explanationEn: 'print() separates multiple output values with a space by default.' },
+  inout_07: { questionEn: 'What does the sep parameter in print() do?', optionsEn: ['Sets the separator between output values', 'Sets the input data type', 'Hides the output', 'Sets the number of loop iterations'], explanationEn: 'sep specifies the separator used between multiple values printed by print().' },
+  inout_08: { questionEn: 'What is the default value of the end parameter in print()?', optionsEn: ['An empty string', 'A space', 'A newline character', 'A comma'], explanationEn: 'By default, print() adds a newline character at the end of its output.' },
+  inout_09: { questionEn: 'What is displayed after running the code below?', optionsEn: ['年齡：12', '年齡： 12', '"年齡：", "12"', 'Error'], explanationEn: 'print() inserts a space between two output values by default.' },
+  inout_10: { questionEn: 'Which expression displays the prompt “Enter your name:” when asking for input?', optionsEn: ['input("Enter your name:")', 'print.input("Enter your name:")', 'read("Enter your name:")', 'prompt = input'], explanationEn: 'input() accepts a prompt string and displays it while waiting for input.' },
+  str_01: { questionEn: 'Which of these is a Python string?', optionsEn: ['hello', '"hello"', 'True', '42'], explanationEn: 'A string must be enclosed in single or double quotation marks.' },
+  str_02: { questionEn: 'What does the code below print?', optionsEn: ['Py thon', 'Python', 'Py+thon', 'Error'], explanationEn: 'Using + with strings concatenates them.' },
+  str_03: { questionEn: 'What does the code below print?', optionsEn: ['2', '3', '4', 'cat'], explanationEn: 'len() returns the length of a string; “cat” has 3 characters.' },
+  str_04: { questionEn: 'What is the index of the first character in a Python string?', optionsEn: ['0', '1', '-1', 'It depends on the string'], explanationEn: 'Python uses zero-based indexing, so the first character has index 0.' },
+  str_05: { questionEn: 'What does the code below print?', optionsEn: ['P', 'y', 'n', 'Python'], explanationEn: 'Index 0 refers to the first character of the string, P.' },
+  str_06: { questionEn: 'What does the code below print?', optionsEn: ['hello', 'Hello', 'HELLO', 'Error'], explanationEn: 'upper() returns a string with all English letters converted to uppercase.' },
+  str_07: { questionEn: 'What does the code below print?', optionsEn: ['  hi  ', 'hi', 'HI', 'h i'], explanationEn: 'strip() removes whitespace from both ends of a string.' },
+  str_08: { questionEn: 'What does the code below print?', optionsEn: ['banana', 'bonono', 'bonana', 'banono'], explanationEn: 'replace() replaces every a with o, resulting in bonono.' },
+  str_09: { questionEn: 'What does the code below print?', optionsEn: ['abc', 'bcd', 'bcde', 'cde'], explanationEn: 'The slice includes index 1 but excludes index 4, so the result is bcd.' },
+  str_10: { questionEn: 'Which f-string inserts the value of the variable name into a string?', optionsEn: ['f"Hello, {name}"', '"Hello, (name)"', 'f"Hello, name"', 'format f"Hello, name"'], explanationEn: 'An f-string starts with f and uses braces to insert a variable or expression.' },
+  func_01: { questionEn: 'Which keyword defines a function in Python?', optionsEn: ['function', 'def', 'fun', 'define'], explanationEn: 'Python uses the def keyword to define a function.' },
+  func_02: { questionEn: 'How do you call a function named greet?', optionsEn: ['call greet', 'greet()', 'def greet', 'run(greet)'], explanationEn: 'Call a function by adding parentheses after its name.' },
+  func_03: { questionEn: 'What are parameters in a function commonly used for?', optionsEn: ['Receiving data passed to the function', 'Stopping the program', 'Repeating the function', 'Displaying error messages'], explanationEn: 'Parameters let a function receive and use data passed to it.' },
+  func_04: { questionEn: 'What does return usually do in a function?', optionsEn: ['Defines a variable', 'Returns a result and ends the function', 'Calls the function again', 'Displays text'], explanationEn: 'return sends a value back to the caller and ends the current function.' },
+  func_05: { questionEn: 'What is the result after running the code below?', optionsEn: ['23', '5', 'add', 'None'], explanationEn: 'The function adds the two integers and returns 5.' },
+  func_06: { questionEn: 'What does a function return by default if it has no explicit return statement?', optionsEn: ['0', 'False', 'None', 'An empty string'], explanationEn: 'A function without a return value implicitly returns None.' },
+  func_07: { questionEn: 'When is a default parameter value used?', optionsEn: ['It always overrides the passed value', 'When the argument is omitted in the call', 'Before the function is defined', 'Only inside a loop'], explanationEn: 'The default is used only when the argument is omitted from the function call.' },
+  func_08: { questionEn: 'What does the code below print?', optionsEn: ['Hi', 'Hi Amy', 'Amy Hi', 'name Amy'], explanationEn: 'The call passes "Amy" to name, and print() separates the values with a space.' },
+  func_09: { questionEn: 'Which function call uses keyword arguments?', optionsEn: ['power(2, 3)', 'power(base=2, exponent=3)', 'power()', 'def power(2, 3)'], explanationEn: 'A keyword argument specifies a parameter by name, followed by an equals sign.' },
+  func_10: { questionEn: 'Where can a function’s local variable usually be used directly?', optionsEn: ['Anywhere in the program', 'Only inside the function where it is defined', 'Only in other modules', 'Only inside an if block'], explanationEn: 'A local variable is generally in scope only inside the function where it is defined.' },
+};
+
+export const DEFAULT_QUESTIONS: Question[] = DEFAULT_QUESTIONS_ZH.map((question) => ({
+  ...question,
+  ...DEFAULT_QUESTION_TRANSLATIONS[question.id],
+}));
+
 const LOCAL_STORAGE_CUSTOM_QUESTIONS_KEY = 'knowledge_conquest_custom_questions_v1';
 
 export function getCustomQuestions(): Question[] {
@@ -184,10 +252,35 @@ export function getAllQuestions(): Question[] {
   return [...DEFAULT_QUESTIONS, ...getCustomQuestions()];
 }
 
+export function getQuestionContent(question: Question, language: 'zh' | 'en') {
+  const useEnglish = language === 'en';
+  return {
+    question: useEnglish ? question.questionEn || question.question : question.question,
+    options: useEnglish && question.optionsEn?.length === question.options.length
+      ? question.optionsEn
+      : question.options,
+    explanation: useEnglish ? question.explanationEn || question.explanation : question.explanation,
+  };
+}
+
 type QuestionVariant = Pick<
   Question,
-  'question' | 'code' | 'options' | 'correctAnswer' | 'explanation'
+  | 'question'
+  | 'code'
+  | 'options'
+  | 'correctAnswer'
+  | 'explanation'
+  | 'questionEn'
+  | 'optionsEn'
+  | 'explanationEn'
 >;
+
+type EnglishVariant = {
+  question: string;
+  answer: string;
+  distractors: string[];
+  explanation: string;
+};
 
 const randomInt = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
@@ -200,23 +293,37 @@ const createVariant = (
   code: string,
   answer: string,
   distractors: string[],
-  explanation: string
+  explanation: string,
+  english: EnglishVariant
 ): QuestionVariant => {
-  const options = Array.from(new Set([answer, ...distractors]));
+  const options = Array.from(new Set([answer, ...distractors])).slice(0, 4);
   while (options.length < 4) options.push(`其他答案 ${options.length - 2}`);
-  options.length = 4;
 
-  for (let i = options.length - 1; i > 0; i--) {
+  const englishChoices = [english.answer, ...english.distractors];
+  const optionPairs = options.map((option) => {
+    const optionIndex = [answer, ...distractors].indexOf(option);
+    return {
+      option,
+      optionEn: optionIndex >= 0
+        ? englishChoices[optionIndex] ?? option
+        : `Other answer ${options.indexOf(option) - 2}`,
+    };
+  });
+
+  for (let i = optionPairs.length - 1; i > 0; i--) {
     const j = randomInt(0, i);
-    [options[i], options[j]] = [options[j], options[i]];
+    [optionPairs[i], optionPairs[j]] = [optionPairs[j], optionPairs[i]];
   }
 
   return {
     question,
+    questionEn: english.question,
     code,
-    options,
-    correctAnswer: options.indexOf(answer),
+    options: optionPairs.map(({ option }) => option),
+    optionsEn: optionPairs.map(({ optionEn }) => optionEn),
+    correctAnswer: optionPairs.findIndex(({ option }) => option === answer),
     explanation,
+    explanationEn: english.explanation,
   };
 };
 
@@ -230,7 +337,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `x = ${x}`,
       String(x),
       [`"${x}"`, String(x + 1), '未定義'],
-      `指派運算子 = 將整數 ${x} 指派給變數 x。`
+      `指派運算子 = 將整數 ${x} 指派給變數 x。`,
+      {
+        question: 'After running the code below, what is the value of x?',
+        answer: String(x),
+        distractors: [`"${x}"`, String(x + 1), 'Undefined'],
+        explanation: `The assignment operator = assigns the integer ${x} to the variable x.`,
+      }
     );
   },
   variable_04: () => {
@@ -242,7 +355,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `a = ${a}\nb = ${b}\nprint(a + b)`,
       String(answer),
       [String(a * b), String(Math.abs(a - b)), `${a}${b}`],
-      `程式將 a 和 b 相加：${a} + ${b} = ${answer}。`
+      `程式將 a 和 b 相加：${a} + ${b} = ${answer}。`,
+      {
+        question: 'What does the code below print?',
+        answer: String(answer),
+        distractors: [String(a * b), String(Math.abs(a - b)), `${a}${b}`],
+        explanation: `The code adds a and b: ${a} + ${b} = ${answer}.`,
+      }
     );
   },
   variable_05: () => {
@@ -254,7 +373,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print(${dividend} // ${divisor})`,
       String(answer),
       [String(answer + 1), String(dividend % divisor), `${(dividend / divisor).toFixed(2)}`],
-      `// 會捨去小數部分；${dividend} // ${divisor} 的結果是 ${answer}。`
+      `// 會捨去小數部分；${dividend} // ${divisor} 的結果是 ${answer}。`,
+      {
+        question: 'What does the code below print?',
+        answer: String(answer),
+        distractors: [String(answer + 1), String(dividend % divisor), `${(dividend / divisor).toFixed(2)}`],
+        explanation: `// discards the fractional part, so ${dividend} // ${divisor} equals ${answer}.`,
+      }
     );
   },
   variable_06: () => {
@@ -266,7 +391,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print(${dividend} % ${divisor})`,
       String(answer),
       [String(divisor), String(Math.floor(dividend / divisor)), String(answer + 1)],
-      `${dividend} 除以 ${divisor} 的餘數是 ${answer}。`
+      `${dividend} 除以 ${divisor} 的餘數是 ${answer}。`,
+      {
+        question: 'What does the code below print?',
+        answer: String(answer),
+        distractors: [String(divisor), String(Math.floor(dividend / divisor)), String(answer + 1)],
+        explanation: `The remainder when ${dividend} is divided by ${divisor} is ${answer}.`,
+      }
     );
   },
   variable_07: () => {
@@ -278,7 +409,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `x = ${x}\nx += ${increment}`,
       String(answer),
       [String(x), String(x * increment), String(answer + 1)],
-      `x += ${increment} 等同於 x = x + ${increment}，所以 x 變成 ${answer}。`
+      `x += ${increment} 等同於 x = x + ${increment}，所以 x 變成 ${answer}。`,
+      {
+        question: 'After running the code below, what is the value of x?',
+        answer: String(answer),
+        distractors: [String(x), String(x * increment), String(answer + 1)],
+        explanation: `x += ${increment} is equivalent to x = x + ${increment}, so x becomes ${answer}.`,
+      }
     );
   },
   variable_10: () => {
@@ -289,7 +426,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `x, y = ${x}, ${y}\nprint(x, y)`,
       `${x} ${y}`,
       [`${y} ${x}`, `(${x}, ${y})`, `${x}, ${y}`],
-      `多重指派依序將 ${x} 指派給 x、${y} 指派給 y；print() 預設以空格分隔。`
+      `多重指派依序將 ${x} 指派給 x、${y} 指派給 y；print() 預設以空格分隔。`,
+      {
+        question: 'What does the code below print?',
+        answer: `${x} ${y}`,
+        distractors: [`${y} ${x}`, `(${x}, ${y})`, `${x}, ${y}`],
+        explanation: `Multiple assignment sets x to ${x} and y to ${y}; print() separates values with a space by default.`,
+      }
     );
   },
   loop_01: () => {
@@ -304,7 +447,17 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
         Array.from({ length: stop + 1 }, (_, i) => i).join('、'),
         Array.from({ length: stop }, (_, i) => stop - i - 1).join('、'),
       ],
-      `range(${stop}) 從 0 開始，到 ${stop} 之前停止。`
+      `range(${stop}) 從 0 開始，到 ${stop} 之前停止。`,
+      {
+        question: 'Which values does i take in order in the code below?',
+        answer: Array.from({ length: stop }, (_, i) => i).join(', '),
+        distractors: [
+          Array.from({ length: stop }, (_, i) => i + 1).join(', '),
+          Array.from({ length: stop + 1 }, (_, i) => i).join(', '),
+          Array.from({ length: stop }, (_, i) => stop - i - 1).join(', '),
+        ],
+        explanation: `range(${stop}) starts at 0 and stops before ${stop}.`,
+      }
     );
   },
   loop_02: () => {
@@ -321,7 +474,17 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
         Array.from({ length: stop - start }, (_, i) => start - 1 + i).join('、'),
         [...values].reverse().join('、'),
       ],
-      `range(${start}, ${stop}) 包含起點 ${start}，但不包含終點 ${stop}。`
+      `range(${start}, ${stop}) 包含起點 ${start}，但不包含終點 ${stop}。`,
+      {
+        question: 'What does the code below print?',
+        answer: values.join(', '),
+        distractors: [
+          [...values, stop].join(', '),
+          Array.from({ length: stop - start }, (_, i) => start - 1 + i).join(', '),
+          [...values].reverse().join(', '),
+        ],
+        explanation: `range(${start}, ${stop}) includes the start ${start} but excludes the end ${stop}.`,
+      }
     );
   },
   loop_04: () => {
@@ -331,7 +494,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `for _ in range(${count}):\n    print("Hi")`,
       `${count} 次`,
       [`${count - 1} 次`, `${count + 1} 次`, '無限次'],
-      `range(${count}) 會產生 ${count} 個值，因此迴圈執行 ${count} 次。`
+      `range(${count}) 會產生 ${count} 個值，因此迴圈執行 ${count} 次。`,
+      {
+        question: 'How many times will “Hi” be printed by the code below?',
+        answer: `${count} times`,
+        distractors: [`${count - 1} times`, `${count + 1} times`, 'Infinite times'],
+        explanation: `range(${count}) produces ${count} values, so the loop runs ${count} times.`,
+      }
     );
   },
   loop_05: () => {
@@ -344,7 +513,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `total = 0\nfor n in range(${start}, ${stop}):\n    total += n`,
       String(answer),
       [String(answer - 1), String(answer + 1), String(answer + stop)],
-      `迴圈將 ${start} 到 ${stop - 1} 加總，結果為 ${answer}。`
+      `迴圈將 ${start} 到 ${stop - 1} 加總，結果為 ${answer}。`,
+      {
+        question: 'After running the code below, what is the value of total?',
+        answer: String(answer),
+        distractors: [String(answer - 1), String(answer + 1), String(answer + stop)],
+        explanation: `The loop adds the numbers from ${start} through ${stop - 1}, giving ${answer}.`,
+      }
     );
   },
   loop_09: () => {
@@ -362,7 +537,17 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
         values.map((value) => value + 1).join('、'),
         values.slice(1).join('、'),
       ],
-      `range() 從 ${start} 開始，每次增加 ${step}，並在 ${stop} 之前停止。`
+      `range() 從 ${start} 開始，每次增加 ${step}，並在 ${stop} 之前停止。`,
+      {
+        question: 'What does the code below print?',
+        answer: values.join(', '),
+        distractors: [
+          [...values, stop].join(', '),
+          values.map((value) => value + 1).join(', '),
+          values.slice(1).join(', '),
+        ],
+        explanation: `range() starts at ${start}, increases by ${step}, and stops before ${stop}.`,
+      }
     );
   },
   loop_10: () => {
@@ -373,7 +558,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `x = ${x}\nwhile x < ${limit}:\n    print(x)`,
       '程式進入無限迴圈',
       ['迴圈只執行一次', `x 自動變成 ${limit}`, 'Python 自動跳出迴圈'],
-      `x 初始值為 ${x}，小於 ${limit}，而迴圈內沒有改變 x，因此條件一直成立。`
+      `x 初始值為 ${x}，小於 ${limit}，而迴圈內沒有改變 x，因此條件一直成立。`,
+      {
+        question: 'What might happen when the code below runs?',
+        answer: 'The program enters an infinite loop',
+        distractors: ['The loop runs only once', `x automatically becomes ${limit}`, 'Python exits the loop automatically'],
+        explanation: `x starts at ${x}, which is less than ${limit}. Since the loop does not change x, the condition remains true.`,
+      }
     );
   },
   ifelse_02: () => {
@@ -385,7 +576,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print(${a} > ${b})`,
       answer,
       [answer === 'True' ? 'False' : 'True', String(a), String(b)],
-      `${a} ${a > b ? '大於' : '不大於'} ${b}，比較結果是 ${answer}。`
+      `${a} ${a > b ? '大於' : '不大於'} ${b}，比較結果是 ${answer}。`,
+      {
+        question: 'What does the code below print?',
+        answer,
+        distractors: [answer === 'True' ? 'False' : 'True', String(a), String(b)],
+        explanation: `${a} is ${a > b ? 'greater than' : 'not greater than'} ${b}, so the comparison evaluates to ${answer}.`,
+      }
     );
   },
   ifelse_05: () => {
@@ -397,7 +594,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `score = ${score}\nprint(score >= ${passingScore})`,
       answer,
       [answer === 'True' ? 'False' : 'True', String(score), String(passingScore)],
-      `${score} ${score >= passingScore ? '大於或等於' : '小於'} ${passingScore}，條件結果是 ${answer}。`
+      `${score} ${score >= passingScore ? '大於或等於' : '小於'} ${passingScore}，條件結果是 ${answer}。`,
+      {
+        question: 'What does the code below print?',
+        answer,
+        distractors: [answer === 'True' ? 'False' : 'True', String(score), String(passingScore)],
+        explanation: `${score} is ${score >= passingScore ? 'greater than or equal to' : 'less than'} ${passingScore}, so the condition evaluates to ${answer}.`,
+      }
     );
   },
   ifelse_07: () => {
@@ -409,7 +612,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print(${left ? 'True' : 'False'} and ${right ? 'True' : 'False'})`,
       answer,
       [answer === 'True' ? 'False' : 'True', 'None', '錯誤'],
-      `and 需要左右兩側都為 True；本題結果是 ${answer}。`
+      `and 需要左右兩側都為 True；本題結果是 ${answer}。`,
+      {
+        question: 'What does the code below print?',
+        answer,
+        distractors: [answer === 'True' ? 'False' : 'True', 'None', 'Error'],
+        explanation: `With and, both sides must be True. The result here is ${answer}.`,
+      }
     );
   },
   ifelse_08: () => {
@@ -421,7 +630,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print(${left ? 'True' : 'False'} or ${right ? 'True' : 'False'})`,
       answer,
       [answer === 'True' ? 'False' : 'True', 'None', '錯誤'],
-      `or 只要其中一側為 True，結果就是 True；本題結果是 ${answer}。`
+      `or 只要其中一側為 True，結果就是 True；本題結果是 ${answer}。`,
+      {
+        question: 'What does the code below print?',
+        answer,
+        distractors: [answer === 'True' ? 'False' : 'True', 'None', 'Error'],
+        explanation: `With or, the result is True if either side is True. The result here is ${answer}.`,
+      }
     );
   },
   ifelse_09: () => {
@@ -432,7 +647,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `x = ${x}\nprint(x % 2 == 0)`,
       answer,
       [answer === 'True' ? 'False' : 'True', String(x), '0'],
-      `若 x 是 2 的倍數，條件成立並輸出 True；否則輸出 False。`
+      `若 x 是 2 的倍數，條件成立並輸出 True；否則輸出 False。`,
+      {
+        question: 'What does the Python code below print?',
+        answer,
+        distractors: [answer === 'True' ? 'False' : 'True', String(x), '0'],
+        explanation: 'If x is divisible by 2, the condition is true and prints True; otherwise it prints False.',
+      }
     );
   },
   inout_03: () => {
@@ -442,7 +663,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print("${text}")`,
       text,
       [`"${text}"`, `print ${text}`, '不會顯示'],
-      `print() 輸出字串內容，不會顯示包住字串的引號。`
+      `print() 輸出字串內容，不會顯示包住字串的引號。`,
+      {
+        question: 'What does the code below print?',
+        answer: text,
+        distractors: [`"${text}"`, `print ${text}`, 'Nothing'],
+        explanation: 'print() displays the contents of a string without its quotation marks.',
+      }
     );
   },
   inout_06: () => {
@@ -452,7 +679,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print("${first}", "${second}")`,
       `${first} ${second}`,
       [`${first}${second}`, `${first},${second}`, `["${first}", "${second}"]`],
-      'print() 預設使用空格分隔多個輸出值。'
+      'print() 預設使用空格分隔多個輸出值。',
+      {
+        question: 'What does the code below print?',
+        answer: `${first} ${second}`,
+        distractors: [`${first}${second}`, `${first},${second}`, `["${first}", "${second}"]`],
+        explanation: 'print() separates multiple output values with a space by default.',
+      }
     );
   },
   inout_09: () => {
@@ -462,7 +695,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print("年齡：", ${age})`,
       `年齡： ${age}`,
       [`年齡：${age}`, `"年齡：", "${age}"`, '錯誤'],
-      'print() 預設會在兩個輸出值之間插入一個空格。'
+      'print() 預設會在兩個輸出值之間插入一個空格。',
+      {
+        question: 'What is displayed after running the code below?',
+        answer: `年齡： ${age}`,
+        distractors: [`年齡：${age}`, `"年齡：", "${age}"`, 'Error'],
+        explanation: 'print() inserts a space between the two output values by default.',
+      }
     );
   },
   str_02: () => {
@@ -473,7 +712,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print("${first}" + "${second}")`,
       answer,
       [`${first} ${second}`, `${first}+${second}`, `${second}${first}`],
-      '字串使用 + 會串接在一起，不會自動加入空格。'
+      '字串使用 + 會串接在一起，不會自動加入空格。',
+      {
+        question: 'What does the code below print?',
+        answer,
+        distractors: [`${first} ${second}`, `${first}+${second}`, `${second}${first}`],
+        explanation: 'The + operator concatenates strings without inserting a space.',
+      }
     );
   },
   str_03: () => {
@@ -484,7 +729,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print(len("${word}"))`,
       answer,
       [String(word.length - 1), String(word.length + 1), word],
-      `len() 會回傳字串長度；"${word}" 有 ${word.length} 個字元。`
+      `len() 會回傳字串長度；"${word}" 有 ${word.length} 個字元。`,
+      {
+        question: 'What does the code below print?',
+        answer,
+        distractors: [String(word.length - 1), String(word.length + 1), word],
+        explanation: `len() returns a string's length; "${word}" has ${word.length} characters.`,
+      }
     );
   },
   str_05: () => {
@@ -496,7 +747,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print("${word}"[${index}])`,
       answer,
       [word[(index + 1) % word.length], word[(index + 2) % word.length], word],
-      `索引 ${index} 代表字串中的第 ${index + 1} 個字元，因此結果是 ${answer}。`
+      `索引 ${index} 代表字串中的第 ${index + 1} 個字元，因此結果是 ${answer}。`,
+      {
+        question: 'What does the code below print?',
+        answer,
+        distractors: [word[(index + 1) % word.length], word[(index + 2) % word.length], word],
+        explanation: `Index ${index} refers to the ${index + 1}${index === 0 ? 'st' : index === 1 ? 'nd' : index === 2 ? 'rd' : 'th'} character, so the result is ${answer}.`,
+      }
     );
   },
   str_06: () => {
@@ -506,7 +763,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print("${word}".upper())`,
       word.toUpperCase(),
       [word, `${word[0].toUpperCase()}${word.slice(1)}`, '錯誤'],
-      'upper() 會回傳所有英文字母轉成大寫的字串。'
+      'upper() 會回傳所有英文字母轉成大寫的字串。',
+      {
+        question: 'What does the code below print?',
+        answer: word.toUpperCase(),
+        distractors: [word, `${word[0].toUpperCase()}${word.slice(1)}`, 'Error'],
+        explanation: 'upper() returns a string with all English letters converted to uppercase.',
+      }
     );
   },
   str_07: () => {
@@ -516,7 +779,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print("  ${word}  ".strip())`,
       word,
       [`  ${word}  `, word.toUpperCase(), `${word} `],
-      'strip() 會移除字串左右兩側的空白字元。'
+      'strip() 會移除字串左右兩側的空白字元。',
+      {
+        question: 'What does the code below print?',
+        answer: word,
+        distractors: [`  ${word}  `, word.toUpperCase(), `${word} `],
+        explanation: 'strip() removes whitespace from both ends of a string.',
+      }
     );
   },
   str_08: () => {
@@ -532,7 +801,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print("${word}".replace("${oldChar}", "${newChar}"))`,
       answer,
       [word, word.replace(oldChar, newChar), word.toUpperCase()],
-      `replace() 會將所有符合的 ${oldChar} 替換成 ${newChar}，結果是 ${answer}。`
+      `replace() 會將所有符合的 ${oldChar} 替換成 ${newChar}，結果是 ${answer}。`,
+      {
+        question: 'What does the code below print?',
+        answer,
+        distractors: [word, word.replace(oldChar, newChar), word.toUpperCase()],
+        explanation: `replace() changes every ${oldChar} to ${newChar}, resulting in ${answer}.`,
+      }
     );
   },
   str_09: () => {
@@ -545,7 +820,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `print("${word}"[${start}:${end}])`,
       answer,
       [word.slice(start, end + 1), word.slice(start - 1, end), word],
-      `切片包含起始索引 ${start}，但不包含結束索引 ${end}，因此結果是 ${answer}。`
+      `切片包含起始索引 ${start}，但不包含結束索引 ${end}，因此結果是 ${answer}。`,
+      {
+        question: 'What does the code below print?',
+        answer,
+        distractors: [word.slice(start, end + 1), word.slice(start - 1, end), word],
+        explanation: `The slice includes start index ${start} but excludes end index ${end}, so the result is ${answer}.`,
+      }
     );
   },
   func_05: () => {
@@ -557,7 +838,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `def add(a, b):\n    return a + b\n\nprint(add(${a}, ${b}))`,
       answer,
       [`${a}${b}`, String(a * b), String(Math.abs(a - b))],
-      `add() 回傳兩個整數的總和：${a} + ${b} = ${answer}。`
+      `add() 回傳兩個整數的總和：${a} + ${b} = ${answer}。`,
+      {
+        question: 'What is the result after running the code below?',
+        answer,
+        distractors: [`${a}${b}`, String(a * b), String(Math.abs(a - b))],
+        explanation: `The add() function returns the sum of the two integers: ${a} + ${b} = ${answer}.`,
+      }
     );
   },
   func_08: () => {
@@ -567,7 +854,13 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       `def greet(name):\n    print("Hi", name)\n\ngreet("${name}")`,
       `Hi ${name}`,
       ['Hi', name, `${name} Hi`],
-      `呼叫 greet("${name}") 時，print() 以空格分隔 Hi 與參數，因此輸出 Hi ${name}。`
+      `呼叫 greet("${name}") 時，print() 以空格分隔 Hi 與參數，因此輸出 Hi ${name}。`,
+      {
+        question: 'What does the code below print?',
+        answer: `Hi ${name}`,
+        distractors: ['Hi', name, `${name} Hi`],
+        explanation: `When greet("${name}") is called, print() separates "Hi" and the argument with a space, producing Hi ${name}.`,
+      }
     );
   },
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
-import { CATEGORY_LABELS } from '../data/questions';
+import { CATEGORY_LABELS, getQuestionContent } from '../data/questions';
 import { QuestionCategory } from '../types/game';
 import { useLanguage } from '../context/LanguageContext';
 import { 
@@ -194,6 +194,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({ isOpen, onClose }) => {
               <div className="space-y-2">
                 {wrongAnswers.map((entry, index) => {
                   const { question } = entry;
+                  const questionContent = getQuestionContent(question, language);
                   return (
                     <article
                       key={`${question.id}-${entry.answeredAt}-${index}`}
@@ -207,7 +208,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({ isOpen, onClose }) => {
                         </span>
                         <span className="text-[11px] text-rose-400">{t('答錯')}</span>
                       </div>
-                      <p className="text-sm font-medium text-slate-100">{question.question}</p>
+                      <p className="text-sm font-medium text-slate-100">{questionContent.question}</p>
                       {question.code && (
                         <pre className="mt-2 p-2 rounded bg-slate-950 text-xs text-sky-200 overflow-x-auto whitespace-pre-wrap">
                           {question.code}
@@ -215,13 +216,13 @@ export const StatsModal: React.FC<StatsModalProps> = ({ isOpen, onClose }) => {
                       )}
                       <div className="mt-2 grid gap-1 text-xs">
                         <p className="text-rose-300">
-                          {t('你的答案：')}{question.options[entry.selectedAnswer]}
+                          {t('你的答案：')}{questionContent.options[entry.selectedAnswer]}
                         </p>
                         <p className="text-emerald-300">
-                          {t('正確答案：')}{question.options[question.correctAnswer]}
+                          {t('正確答案：')}{questionContent.options[question.correctAnswer]}
                         </p>
                       </div>
-                      <p className="text-xs text-slate-400 mt-2">{question.explanation}</p>
+                      <p className="text-xs text-slate-400 mt-2">{questionContent.explanation}</p>
                     </article>
                   );
                 })}

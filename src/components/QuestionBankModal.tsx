@@ -5,7 +5,8 @@ import {
   deleteCustomQuestion, 
   CATEGORY_LABELS, 
   DIFFICULTY_LABELS,
-  DEFAULT_QUESTIONS
+  DEFAULT_QUESTIONS,
+  getQuestionContent,
 } from '../data/questions';
 import { Question, QuestionCategory } from '../types/game';
 import { soundManager } from '../utils/audio';
@@ -94,7 +95,10 @@ export const QuestionBankModal: React.FC<QuestionBankModalProps> = ({ isOpen, on
   const filteredQuestions = questions.filter((q) => {
     if (categoryFilter !== 'all' && q.category !== categoryFilter) return false;
     if (difficultyFilter !== 'all' && q.difficulty.toString() !== difficultyFilter) return false;
-    if (searchQuery.trim() && !q.question.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      if (![q.question, q.questionEn].some((text) => text?.toLowerCase().includes(query))) return false;
+    }
     return true;
   });
 
@@ -193,6 +197,7 @@ export const QuestionBankModal: React.FC<QuestionBankModalProps> = ({ isOpen, on
               <div className="space-y-3">
                 {filteredQuestions.map((q) => {
                   const isCustom = q.id.startsWith('custom_');
+                  const questionContent = getQuestionContent(q, language);
 
                   return (
                     <div
@@ -229,13 +234,13 @@ export const QuestionBankModal: React.FC<QuestionBankModalProps> = ({ isOpen, on
                       </div>
 
                       <h4 className="text-sm font-semibold text-slate-100 mb-2">
-                        {q.question}
+                        {questionContent.question}
                       </h4>
 
                       <PythonCodeBlock code={q.code} />
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs">
-                        {q.options.map((opt, oIdx) => (
+                        {questionContent.options.map((opt, oIdx) => (
                           <div
                             key={oIdx}
                             className={`p-1.5 rounded border text-[11px] flex items-center gap-1.5 ${
@@ -255,9 +260,9 @@ export const QuestionBankModal: React.FC<QuestionBankModalProps> = ({ isOpen, on
                         ))}
                       </div>
 
-                      {q.explanation && (
+                      {questionContent.explanation && (
                         <p className="mt-2 text-[11px] text-slate-400 bg-slate-900/60 p-2 rounded border border-slate-800/80">
-                          💡 <span className="font-medium text-slate-300">{t('解析：')}</span>{q.explanation}
+                          💡 <span className="font-medium text-slate-300">{t('解析：')}</span>{questionContent.explanation}
                         </p>
                       )}
                     </div>

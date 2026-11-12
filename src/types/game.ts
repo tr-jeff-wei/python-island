@@ -43,10 +43,13 @@ export interface Question {
   difficulty: number; // 1 to 5
   type: QuestionType;
   question: string;
+  questionEn?: string;
   code: string;
   options: string[];
+  optionsEn?: string[];
   correctAnswer: number; // 0-indexed option index
   explanation: string;
+  explanationEn?: string;
   reward: number; // coins reward
 }
 

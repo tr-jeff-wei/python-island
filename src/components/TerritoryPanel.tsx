@@ -4,7 +4,7 @@ import { BuildingType, Question } from '../types/game';
 import { FACTION_INFO } from '../data/initialMap';
 import { DRONE_CONFIGS, BUILDING_TEMPLATES, getBuildingCost, calculateQuizReward } from '../utils/balance';
 import { soundManager } from '../utils/audio';
-import { getRandomQuestion, CATEGORY_LABELS, DIFFICULTY_LABELS } from '../data/questions';
+import { getRandomQuestion, getQuestionContent, CATEGORY_LABELS, DIFFICULTY_LABELS } from '../data/questions';
 import { getTerritoryAlien, getTerritoryTileImage } from '../utils/hexAssets';
 import { PythonCodeBlock } from './PythonCodeBlock';
 import { useLanguage } from '../context/LanguageContext';
@@ -57,6 +57,7 @@ export const TerritoryPanel: React.FC = () => {
   const faction = FACTION_INFO[terr.ownerId] || FACTION_INFO.neutral;
   const adjacent = isAdjacentToPlayer(terr);
   const droneConfig = DRONE_CONFIGS[terr.droneLevel] || DRONE_CONFIGS[1];
+  const quizContent = quizQuestion ? getQuestionContent(quizQuestion, language) : null;
 
   // Calculate Institute bonus percentage from all player territories
   const instituteBonusPercent = isPlayer
@@ -102,8 +103,8 @@ export const TerritoryPanel: React.FC = () => {
       setQuizFeedback({
         isCorrect: false,
         text: language === 'en'
-          ? `Incorrect. Correct answer: ${quizQuestion.options[quizQuestion.correctAnswer]}`
-          : `回答錯誤。正確解答：${quizQuestion.options[quizQuestion.correctAnswer]}`,
+          ? `Incorrect. Correct answer: ${getQuestionContent(quizQuestion, language).options[quizQuestion.correctAnswer]}`
+          : `回答錯誤。正確解答：${getQuestionContent(quizQuestion, language).options[quizQuestion.correctAnswer]}`,
         coins: 0,
       });
     }
@@ -375,10 +376,10 @@ export const TerritoryPanel: React.FC = () => {
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <span className={`text-[11px] font-semibold px-2 py-0.5 rounded border ${CATEGORY_LABELS[quizQuestion.category].badge}`}>
-                {CATEGORY_LABELS[quizQuestion.category].name}
+                {t(CATEGORY_LABELS[quizQuestion.category].name)}
               </span>
               <span className="text-[11px] text-amber-400 font-mono">
-                {DIFFICULTY_LABELS[quizQuestion.difficulty].name}
+                {t(DIFFICULTY_LABELS[quizQuestion.difficulty].name)}
               </span>
             </div>
             <button
@@ -390,13 +391,13 @@ export const TerritoryPanel: React.FC = () => {
           </div>
 
           <h4 className="text-sm font-semibold text-white mb-3">
-            {quizQuestion.question}
+            {quizContent?.question}
           </h4>
 
           <PythonCodeBlock code={quizQuestion.code} />
 
           <div className="space-y-1.5 mb-3">
-            {quizQuestion.options.map((opt, idx) => {
+            {quizContent?.options.map((opt, idx) => {
               let btnClass = 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700';
               if (quizAnswered) {
                 if (idx === quizQuestion.correctAnswer) {
@@ -436,7 +437,7 @@ export const TerritoryPanel: React.FC = () => {
               }`}
             >
               <p className="font-semibold">{quizFeedback.text}</p>
-              <p className="mt-1 text-slate-300 text-[11px]">{quizQuestion.explanation}</p>
+              <p className="mt-1 text-slate-300 text-[11px]">{quizContent?.explanation}</p>
             </div>
           )}
 

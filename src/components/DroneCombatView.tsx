@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useGame } from '../context/GameContext';
 import { DRONE_CONFIGS } from '../utils/balance';
 import { soundManager } from '../utils/audio';
-import { getRandomQuestion, CATEGORY_LABELS, DIFFICULTY_LABELS } from '../data/questions';
+import { getRandomQuestion, getQuestionContent, CATEGORY_LABELS, DIFFICULTY_LABELS } from '../data/questions';
 import { Question, Projectile, Particle, FloatingText } from '../types/game';
 import { getTerritoryAlien, FACTION_ALIENS } from '../utils/hexAssets';
 import { PythonCodeBlock } from './PythonCodeBlock';
@@ -53,6 +53,7 @@ export const DroneCombatView: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [quizAnswered, setQuizAnswered] = useState<boolean>(false);
   const [feedbackText, setFeedbackText] = useState<{ isCorrect: boolean; text: string } | null>(null);
+  const currentQuestionContent = currentQuestion ? getQuestionContent(currentQuestion, language) : null;
 
   // Keys pressed
   const keysRef = useRef<{ left: boolean; right: boolean }>({ left: false, right: false });
@@ -228,8 +229,8 @@ export const DroneCombatView: React.FC = () => {
         setFeedbackText({
           isCorrect: false,
           text: language === 'en'
-            ? `Incorrect! The enemy drone broke through. Correct answer: ${currentQuestion.options[currentQuestion.correctAnswer]}`
-            : `回答錯誤！敵方無人機突破防線。正確解答：${currentQuestion.options[currentQuestion.correctAnswer]}`,
+            ? `Incorrect! The enemy drone broke through. Correct answer: ${getQuestionContent(currentQuestion, language).options[currentQuestion.correctAnswer]}`
+            : `回答錯誤！敵方無人機突破防線。正確解答：${getQuestionContent(currentQuestion, language).options[currentQuestion.correctAnswer]}`,
         });
         setBattleState('defeat');
       }
@@ -262,8 +263,8 @@ export const DroneCombatView: React.FC = () => {
       setFeedbackText({
         isCorrect: false,
         text: language === 'en'
-          ? `Incorrect! No missile launched. Correct answer: ${currentQuestion.options[currentQuestion.correctAnswer]}`
-          : `回答錯誤！未發射導彈。正確解答：${currentQuestion.options[currentQuestion.correctAnswer]}`,
+          ? `Incorrect! No missile launched. Correct answer: ${getQuestionContent(currentQuestion, language).options[currentQuestion.correctAnswer]}`
+          : `回答錯誤！未發射導彈。正確解答：${getQuestionContent(currentQuestion, language).options[currentQuestion.correctAnswer]}`,
       });
 
       gameStateRef.current.floatingTexts.push({
@@ -974,14 +975,14 @@ export const DroneCombatView: React.FC = () => {
 
                 {/* Question Prompt */}
                 <h3 className="text-sm sm:text-base font-bold text-slate-100 leading-snug mb-4">
-                  {currentQuestion.question}
+                  {currentQuestionContent?.question}
                 </h3>
 
                 <PythonCodeBlock code={currentQuestion.code} />
 
                 {/* Options List */}
                 <div className="space-y-2">
-                  {currentQuestion.options.map((opt, idx) => {
+                  {currentQuestionContent?.options.map((opt, idx) => {
                     let optStyle = 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-200 hover:border-slate-500';
                     if (quizAnswered) {
                       if (idx === currentQuestion.correctAnswer) {
@@ -1026,7 +1027,7 @@ export const DroneCombatView: React.FC = () => {
                     }`}
                   >
                     <p className="font-semibold">{feedbackText.text}</p>
-                    <p className="text-[11px] text-slate-400 mt-1">{currentQuestion.explanation}</p>
+                    <p className="text-[11px] text-slate-400 mt-1">{currentQuestionContent?.explanation}</p>
                   </div>
                 ) : (
                   <div className="text-[11px] text-slate-400 flex items-center justify-between">
