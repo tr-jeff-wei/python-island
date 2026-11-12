@@ -1,0 +1,6 @@
+{
+  "name": "知識領主 - Knowledge Conquest",
+  "description": "六角形領地競爭策略遊戲，融合知識答題、即時無人機彈幕戰鬥、資源管理與建築防守系統。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
