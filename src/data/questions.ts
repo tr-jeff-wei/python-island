@@ -75,6 +75,22 @@ for n in range(1, 4):
   createQuestion('loop_10', 'loop', 2, '執行下方程式碼時，可能發生什麼？', ['迴圈只執行一次', '程式進入無限迴圈', 'x 自動變成 5', 'Python 自動跳出迴圈'], 1, 'x 一直是 1，條件持續為 True，因此迴圈不會自行結束。', `x = 1
 while x < 5:
     print(x)`),
+  createQuestion('loop_11', 'loop', 2, '執行下方程式碼後，會依序印出什麼？', ['0、1、0、3、0', '0、1、2、3、4', '1、0、3、0、5', '0、0、0、0、0'], 0, 'x 為偶數時印出 0，否則印出 x；range(5) 依序產生 0 到 4。', `for x in range(5):
+    if x % 2 == 0:
+        print(0)
+    else:
+        print(x)`),
+  createQuestion('loop_12', 'loop', 2, '執行下方程式碼後，會依序印出什麼？', ['奇數、偶數、奇數、偶數、奇數', '偶數、奇數、偶數、奇數、偶數', '1、2、3、4、5', '奇數、奇數、奇數、奇數、奇數'], 0, '迴圈從 1 跑到 5，if-else 依照是否能被 2 整除，印出奇數或偶數。', `for x in range(1, 6):
+    if x % 2 == 0:
+        print("偶數")
+    else:
+        print("奇數")`),
+  createQuestion('loop_13', 'loop', 3, '執行下方程式碼後，total 的值是多少？', ['3', '9', '-3', '15'], 0, '奇數加總為 1 + 3 + 5 = 9，偶數扣除 2 + 4，因此 total 為 3。', `total = 0
+for x in range(1, 6):
+    if x % 2 == 0:
+        total -= x
+    else:
+        total += x`),
 
   // 條件式
   createQuestion('ifelse_01', 'ifelse', 1, 'Python 使用哪個關鍵字開始條件判斷？', ['when', 'if', 'check', 'case'], 1, 'Python 使用 if 後接條件來開始條件判斷。'),
@@ -89,6 +105,36 @@ print(score >= 60)`),
   createQuestion('ifelse_09', 'ifelse', 2, '執行下方程式碼後，會輸出什麼？', ['True', 'False', '4', '0'], 0, '若 x 是 2 的倍數，條件成立並輸出 True；否則輸出 False。', `x = 4
 print(x % 2 == 0)`),
   createQuestion('ifelse_10', 'ifelse', 2, 'Python 如何標示 if 區塊內的程式？', ['用大括號包起來', '在每行前加分號', '使用縮排', '使用 begin 和 end'], 2, 'Python 以一致的縮排表示程式區塊。'),
+  createQuestion('ifelse_11', 'ifelse', 2, '執行下方程式碼後，會印出什麼？', ['通過', '不及格', '80', '沒有輸出'], 0, 'score 是 75，符合 score >= 60，因此執行第一個分支並印出「通過」。', `score = 75
+if score >= 60:
+    print("通過")
+else:
+    print("不及格")`),
+  createQuestion('ifelse_12', 'ifelse', 2, '執行下方程式碼後，會印出什麼？', ['B', 'A', 'C', '不及格'], 0, 'score 為 75，先通過外層的及格判斷，再進入內層判斷；因為未達 80，所以印出 B。', `score = 75
+if score >= 60:
+    if score >= 80:
+        print("A")
+    else:
+        print("B")
+else:
+    print("不及格")`),
+  createQuestion('ifelse_13', 'ifelse', 3, '執行下方巢狀判斷後，會印出什麼？', ['正偶數', '正奇數', '非正數', '偶數'], 0, 'x 大於 0，因此進入外層 if；x 又能被 2 整除，所以內層判斷印出「正偶數」。', `x = 6
+if x > 0:
+    if x % 2 == 0:
+        print("正偶數")
+    else:
+        print("正奇數")
+else:
+    print("非正數")`),
+  createQuestion('ifelse_14', 'ifelse', 3, '執行下方程式碼後，會印出什麼？', ['可入場', '年齡未滿 18 歲', '需要門票', '沒有輸出'], 2, 'age 已滿 18 歲，因此進入外層 if；但 has_ticket 是 False，內層 else 會印出「需要門票」。', `age = 20
+has_ticket = False
+if age >= 18:
+    if has_ticket:
+        print("可入場")
+    else:
+        print("需要門票")
+else:
+    print("年齡未滿 18 歲")`),
 
   // 輸出輸入
   createQuestion('inout_01', 'inout', 1, 'Python 中，哪個函式可將文字顯示在螢幕上？', ['show()', 'echo()', 'print()', 'write_line()'], 2, 'print() 會將指定內容輸出到螢幕。'),
@@ -109,7 +155,7 @@ print(x % 2 == 0)`),
   createQuestion('str_04', 'str', 1, 'Python 字串的第一個字元索引值是多少？', ['0', '1', '-1', '依字串而定'], 0, 'Python 使用從 0 開始的索引，因此第一個字元索引是 0。'),
   createQuestion('str_05', 'str', 2, '執行下方程式碼後，會輸出什麼？', ['P', 'y', 'n', 'Python'], 0, '索引 0 代表字串中的第一個字元 P。', `print("Python"[0])`),
   createQuestion('str_06', 'str', 2, '執行下方程式碼後，會輸出什麼？', ['hello', 'Hello', 'HELLO', '錯誤'], 2, 'upper() 會回傳所有英文字母轉成大寫的字串。', `print("hello".upper())`),
-  createQuestion('str_07', 'str', 2, '執行下方程式碼後，會輸出什麼？', ['  hi  ', 'hi', 'HI', 'h i'], 1, 'strip() 會移除字串左右兩側的空白字元。', `print("  hi  ".strip())`),
+  createQuestion('str_07', 'str', 2, '執行下方程式碼後，會輸出什麼？', ['"  hi  "', 'hi', 'HI', 'h i'], 1, 'strip() 會移除字串左右兩側的空白字元。', `print("  hi  ".strip())`),
   createQuestion('str_08', 'str', 2, '執行下方程式碼後，會輸出什麼？', ['banana', 'bonono', 'bonana', 'banono'], 1, 'replace() 會將所有符合的 a 替換成 o，結果是 bonono。', `print("banana".replace("a", "o"))`),
   createQuestion('str_09', 'str', 2, '執行下方程式碼後，會輸出什麼？', ['abc', 'bcd', 'bcde', 'cde'], 1, '切片包含起始索引 1，但不包含結束索引 4，因此結果是 bcd。', `print("abcdef"[1:4])`),
   createQuestion('str_10', 'str', 2, '下列哪個 f-string 寫法會將變數 name 的值放入字串？', ['f"你好，{name}"', '"你好，(name)"', 'f"你好，name"', 'format f"你好，name"'], 0, 'f-string 在字串前加 f，並以大括號放入變數或運算式。'),
@@ -154,6 +200,9 @@ const DEFAULT_QUESTION_TRANSLATIONS: Record<string, Pick<Question, 'questionEn' 
   loop_08: { questionEn: 'What does continue do inside a loop?', optionsEn: ['Ends the entire program', 'Exits the function', 'Skips the rest of this iteration and starts the next one', 'Stops the loop forever'], explanationEn: 'continue skips the rest of the current iteration and proceeds to the next one.' },
   loop_09: { questionEn: 'What does the code below print?', optionsEn: ['2, 4, 6', '2, 4, 6, 8', '1, 3, 5, 7', '2, 8'], explanationEn: 'range(start, stop, step) increases by 2 and excludes the ending value 8.' },
   loop_10: { questionEn: 'What might happen when the code below runs?', optionsEn: ['The loop runs only once', 'The program enters an infinite loop', 'x automatically becomes 5', 'Python exits the loop automatically'], explanationEn: 'x remains 1, so the condition stays True and the loop never ends on its own.' },
+  loop_11: { questionEn: 'What does the code below print, in order?', optionsEn: ['0, 1, 0, 3, 0', '0, 1, 2, 3, 4', '1, 0, 3, 0, 5', '0, 0, 0, 0, 0'], explanationEn: 'When x is even, the code prints 0; otherwise, it prints x. range(5) produces 0 through 4.' },
+  loop_12: { questionEn: 'What does the code below print, in order?', optionsEn: ['Odd, even, odd, even, odd', 'Even, odd, even, odd, even', '1, 2, 3, 4, 5', 'Odd, odd, odd, odd, odd'], explanationEn: 'The loop runs from 1 through 5, and if-else prints whether each number is odd or even.' },
+  loop_13: { questionEn: 'What is the value of total after running the code below?', optionsEn: ['3', '9', '-3', '15'], explanationEn: 'The odd numbers add up to 1 + 3 + 5 = 9, and the even numbers subtract 2 + 4, leaving total equal to 3.' },
   ifelse_01: { questionEn: 'Which keyword starts a conditional statement in Python?', optionsEn: ['when', 'if', 'check', 'case'], explanationEn: 'In Python, a conditional statement starts with if followed by a condition.' },
   ifelse_02: { questionEn: 'What is the result after running the code below?', optionsEn: ['True', 'False', '3', '2'], explanationEn: '3 is greater than 2, so the comparison evaluates to True.' },
   ifelse_03: { questionEn: 'Which keyword is commonly used for an alternative when an if condition is false?', optionsEn: ['otherwise', 'else', 'then', 'elif'], explanationEn: 'else handles the case where the preceding if condition is false.' },
@@ -164,6 +213,10 @@ const DEFAULT_QUESTION_TRANSLATIONS: Record<string, Pick<Question, 'questionEn' 
   ifelse_08: { questionEn: 'What does the code below print?', optionsEn: ['True', 'False', 'None', 'Error'], explanationEn: 'With or, the result is True if either side is True.' },
   ifelse_09: { questionEn: 'What does the code below print?', optionsEn: ['True', 'False', '4', '0'], explanationEn: 'If x is divisible by 2, the condition is true and prints True; otherwise it prints False.' },
   ifelse_10: { questionEn: 'How does Python mark the code inside an if block?', optionsEn: ['By wrapping it in braces', 'By adding a semicolon to each line', 'By using indentation', 'By using begin and end'], explanationEn: 'Python uses consistent indentation to mark code blocks.' },
+  ifelse_11: { questionEn: 'What does the code below print?', optionsEn: ['Pass', 'Fail', '80', 'Nothing'], explanationEn: 'score is 75, which satisfies score >= 60, so the first branch prints “Pass”.' },
+  ifelse_12: { questionEn: 'What does the code below print?', optionsEn: ['B', 'A', 'C', 'Fail'], explanationEn: 'score is 75, so it passes the outer passing-score check and enters the inner condition. Since it is below 80, the code prints B.' },
+  ifelse_13: { questionEn: 'What does the nested conditional below print?', optionsEn: ['Positive even', 'Positive odd', 'Not positive', 'Even'], explanationEn: 'x is greater than 0, so the outer if is entered. x is also divisible by 2, so the inner condition prints “Positive even”.' },
+  ifelse_14: { questionEn: 'What does the code below print?', optionsEn: ['Entry allowed', 'Under 18', 'Ticket required', 'Nothing'], explanationEn: 'age is at least 18, so the outer if is entered. However, has_ticket is False, so the inner else prints “Ticket required”.' },
   inout_01: { questionEn: 'Which Python function displays text on the screen?', optionsEn: ['show()', 'echo()', 'print()', 'write_line()'], explanationEn: 'print() outputs the specified content to the screen.' },
   inout_02: { questionEn: 'Which Python function reads user input?', optionsEn: ['scan()', 'input()', 'read_key()', 'get()'], explanationEn: 'input() reads one line of text entered by the user.' },
   inout_03: { questionEn: 'What is displayed after running the code below?', optionsEn: ['"Hello"', 'Hello', 'print Hello', 'Nothing'], explanationEn: 'print() outputs the contents of a string without displaying its quotation marks.' },
@@ -180,7 +233,7 @@ const DEFAULT_QUESTION_TRANSLATIONS: Record<string, Pick<Question, 'questionEn' 
   str_04: { questionEn: 'What is the index of the first character in a Python string?', optionsEn: ['0', '1', '-1', 'It depends on the string'], explanationEn: 'Python uses zero-based indexing, so the first character has index 0.' },
   str_05: { questionEn: 'What does the code below print?', optionsEn: ['P', 'y', 'n', 'Python'], explanationEn: 'Index 0 refers to the first character of the string, P.' },
   str_06: { questionEn: 'What does the code below print?', optionsEn: ['hello', 'Hello', 'HELLO', 'Error'], explanationEn: 'upper() returns a string with all English letters converted to uppercase.' },
-  str_07: { questionEn: 'What does the code below print?', optionsEn: ['  hi  ', 'hi', 'HI', 'h i'], explanationEn: 'strip() removes whitespace from both ends of a string.' },
+  str_07: { questionEn: 'What does the code below print?', optionsEn: ['"  hi  "', 'hi', 'HI', 'h i'], explanationEn: 'strip() removes whitespace from both ends of a string.' },
   str_08: { questionEn: 'What does the code below print?', optionsEn: ['banana', 'bonono', 'bonana', 'banono'], explanationEn: 'replace() replaces every a with o, resulting in bonono.' },
   str_09: { questionEn: 'What does the code below print?', optionsEn: ['abc', 'bcd', 'bcde', 'cde'], explanationEn: 'The slice includes index 1 but excludes index 4, so the result is bcd.' },
   str_10: { questionEn: 'Which f-string inserts the value of the variable name into a string?', optionsEn: ['f"Hello, {name}"', '"Hello, (name)"', 'f"Hello, name"', 'format f"Hello, name"'], explanationEn: 'An f-string starts with f and uses braces to insert a variable or expression.' },
@@ -778,12 +831,12 @@ const QUESTION_GENERATORS: Partial<Record<string, () => QuestionVariant>> = {
       outputQuestion,
       `print("  ${word}  ".strip())`,
       word,
-      [`  ${word}  `, word.toUpperCase(), `${word} `],
+      [`"  ${word}  "`, word.toUpperCase(), `"${word} "`],
       'strip() 會移除字串左右兩側的空白字元。',
       {
         question: 'What does the code below print?',
         answer: word,
-        distractors: [`  ${word}  `, word.toUpperCase(), `${word} `],
+        distractors: [`"  ${word}  "`, word.toUpperCase(), `"${word} "`],
         explanation: 'strip() removes whitespace from both ends of a string.',
       }
     );
