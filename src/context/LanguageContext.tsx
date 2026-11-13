@@ -129,6 +129,7 @@ const translations: Record<string, string> = {
   '輸出輸入': 'Input & Output',
   '字串': 'Strings',
   '函式': 'Functions',
+  '清單': 'Lists',
   '基礎': 'Beginner',
   '進階': 'Intermediate',
   '挑戰': 'Challenging',

@@ -6,7 +6,8 @@ export const CATEGORY_LABELS: Record<QuestionCategory, { name: string; color: st
   ifelse: { name: '條件式', color: 'text-cyan-400', badge: 'bg-cyan-950/40 border-cyan-500/30 text-cyan-300' },
   inout: { name: '輸出輸入', color: 'text-indigo-400', badge: 'bg-indigo-950/40 border-indigo-500/30 text-indigo-300' },
   str: { name: '字串', color: 'text-rose-400', badge: 'bg-rose-950/40 border-rose-500/30 text-rose-300' },
-  func: { name: '函式', color: 'text-rose-400', badge: 'bg-rose-950/40 border-rose-500/30 text-rose-300' }
+  func: { name: '函式', color: 'text-rose-400', badge: 'bg-rose-950/40 border-rose-500/30 text-rose-300' },
+  list: { name: '清單', color: 'text-violet-400', badge: 'bg-violet-950/40 border-violet-500/30 text-violet-300' }
 };
 
 export const DIFFICULTY_LABELS: Record<number, { name: string; stars: string }> = {
@@ -177,6 +178,32 @@ print(add(2, 3))`),
 greet("Amy")`),
   createQuestion('func_09', 'func', 2, '以下哪個函式呼叫使用關鍵字引數？', ['power(2, 3)', 'power(base=2, exponent=3)', 'power()', 'def power(2, 3)'], 1, '關鍵字引數以參數名稱加等號指定對應的值。'),
   createQuestion('func_10', 'func', 2, '函式的區域變數通常可以在哪裡直接使用？', ['整個程式的任何地方', '只在定義它的函式內', '只在其他模組中', '只能在 if 區塊內'], 1, '區域變數的作用範圍通常限於定義它的函式內。'),
+
+  // 清單
+  createQuestion('list_01', 'list', 1, '執行下方程式碼後，items 的內容是什麼？', ['[1, 2, 3]', '[3, 1, 2]', '[1, 2]', '3'], 0, 'append(3) 會將 3 加到清單末尾。', `items = [1, 2]
+items.append(3)`),
+  createQuestion('list_02', 'list', 1, '執行下方程式碼後，會輸出什麼？', ['3', '2', '4', '清單內容'], 0, 'len() 會回傳清單中的項目數；這個清單有 3 個項目。', `print(len(["red", "blue", "green"]))`),
+  createQuestion('list_03', 'list', 1, '執行下方程式碼後，會輸出什麼？', ['10', '20', '30', '索引錯誤'], 1, '清單索引從 0 開始，因此索引 1 代表第二個項目 20。', `items = [10, 20, 30]
+print(items[1])`),
+  createQuestion('list_04', 'list', 2, '執行下方程式碼後，會輸出什麼？', ['4', '8', '12', '索引錯誤'], 2, '索引 -1 代表清單中的最後一個項目，因此結果是 12。', `values = [4, 8, 12]
+print(values[-1])`),
+  createQuestion('list_05', 'list', 2, '執行下方程式碼後，會輸出哪個子清單？', ['[20, 30, 40]', '[10, 20, 30]', '[20, 30, 40, 50]', '[10, 20, 30, 40]'], 0, '切片 [1:4] 包含索引 1，但不包含索引 4。', `numbers = [10, 20, 30, 40, 50]
+print(numbers[1:4])`),
+  createQuestion('list_06', 'list', 2, '執行下方程式碼後，會輸出什麼？', ['[1, 2, 3]', '[2, 3, 4]', '[1, 2, 3, 4]', '[4]'], 0, '切片 [:-1] 省略起點並排除最後一個項目。', `numbers = [1, 2, 3, 4]
+print(numbers[:-1])`),
+  createQuestion('list_07', 'list', 2, '執行下方程式碼後，會依序印出什麼？', ['apple、banana、cherry', 'my_list、my_list、my_list', 'cherry、banana、apple', '只印出 apple'], 0, 'for item in my_list 會依序讓 item 取得清單中的每個項目。', `my_list = ["apple", "banana", "cherry"]
+for item in my_list:
+    print(item)`),
+  createQuestion('list_08', 'list', 2, '執行下方程式碼後，total 的值是多少？', ['9', '3', '24', '0'], 0, '迴圈依序加上清單中的 2、3、4，因此 total 是 9。', `my_list = [2, 3, 4]
+total = 0
+for item in my_list:
+    total += item`),
+  createQuestion('list_09', 'list', 3, '執行下方程式碼後，會輸出什麼？', ['[1, [2, 3]]', '[1, 2, 3]', '[[1], 2, 3]', '[1, 2, [3]]'], 0, 'append() 將傳入的 [2, 3] 整個清單當成一個項目加入，因此會形成巢狀清單。', `items = [1]
+items.append([2, 3])
+print(items)`),
+  createQuestion('list_10', 'list', 2, '執行下方程式碼後，會輸出什麼？', ['[70, 100, 90]', '[100, 80, 90]', '[70, 80, 100]', '[70, 80, 90]'], 0, '指定 scores[1] 會更新索引 1（第二個項目）的值。', `scores = [70, 80, 90]
+scores[1] = 100
+print(scores)`),
 ];
 
 const DEFAULT_QUESTION_TRANSLATIONS: Record<string, Pick<Question, 'questionEn' | 'optionsEn' | 'explanationEn'>> = {
@@ -247,6 +274,16 @@ const DEFAULT_QUESTION_TRANSLATIONS: Record<string, Pick<Question, 'questionEn' 
   func_08: { questionEn: 'What does the code below print?', optionsEn: ['Hi', 'Hi Amy', 'Amy Hi', 'name Amy'], explanationEn: 'The call passes "Amy" to name, and print() separates the values with a space.' },
   func_09: { questionEn: 'Which function call uses keyword arguments?', optionsEn: ['power(2, 3)', 'power(base=2, exponent=3)', 'power()', 'def power(2, 3)'], explanationEn: 'A keyword argument specifies a parameter by name, followed by an equals sign.' },
   func_10: { questionEn: 'Where can a function’s local variable usually be used directly?', optionsEn: ['Anywhere in the program', 'Only inside the function where it is defined', 'Only in other modules', 'Only inside an if block'], explanationEn: 'A local variable is generally in scope only inside the function where it is defined.' },
+  list_01: { questionEn: 'What is the content of items after running the code below?', optionsEn: ['[1, 2, 3]', '[3, 1, 2]', '[1, 2]', '3'], explanationEn: 'append(3) adds 3 to the end of the list.' },
+  list_02: { questionEn: 'What does the code below print?', optionsEn: ['3', '2', '4', 'The list contents'], explanationEn: 'len() returns the number of items in a list; this list has 3 items.' },
+  list_03: { questionEn: 'What does the code below print?', optionsEn: ['10', '20', '30', 'IndexError'], explanationEn: 'List indexes start at 0, so index 1 refers to the second item, 20.' },
+  list_04: { questionEn: 'What does the code below print?', optionsEn: ['4', '8', '12', 'IndexError'], explanationEn: 'Index -1 refers to the last item in the list, which is 12.' },
+  list_05: { questionEn: 'Which sublist does the code below print?', optionsEn: ['[20, 30, 40]', '[10, 20, 30]', '[20, 30, 40, 50]', '[10, 20, 30, 40]'], explanationEn: 'The slice [1:4] includes index 1 but excludes index 4.' },
+  list_06: { questionEn: 'What does the code below print?', optionsEn: ['[1, 2, 3]', '[2, 3, 4]', '[1, 2, 3, 4]', '[4]'], explanationEn: 'The slice [:-1] omits the start index and excludes the last item.' },
+  list_07: { questionEn: 'What does the code below print, in order?', optionsEn: ['apple, banana, cherry', 'my_list, my_list, my_list', 'cherry, banana, apple', 'Only apple'], explanationEn: 'for item in my_list assigns each list item to item in order.' },
+  list_08: { questionEn: 'What is the value of total after running the code below?', optionsEn: ['9', '3', '24', '0'], explanationEn: 'The loop adds 2, 3, and 4 from the list, so total is 9.' },
+  list_09: { questionEn: 'What does the code below print?', optionsEn: ['[1, [2, 3]]', '[1, 2, 3]', '[[1], 2, 3]', '[1, 2, [3]]'], explanationEn: 'append() adds the entire [2, 3] list as one item, creating a nested list.' },
+  list_10: { questionEn: 'What does the code below print?', optionsEn: ['[70, 100, 90]', '[100, 80, 90]', '[70, 80, 100]', '[70, 80, 90]'], explanationEn: 'Assigning to scores[1] updates the item at index 1 (the second item).' },
 };
 
 export const DEFAULT_QUESTIONS: Question[] = DEFAULT_QUESTIONS_ZH.map((question) => ({

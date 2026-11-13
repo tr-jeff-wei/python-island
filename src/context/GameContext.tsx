@@ -98,6 +98,7 @@ const INITIAL_PLAYER: Player = {
       inout: { answered: 0, correct: 0 },
       str: { answered: 0, correct: 0 },
       func: { answered: 0, correct: 0 },
+      list: { answered: 0, correct: 0 },
     },
   },
   soundEnabled: true,

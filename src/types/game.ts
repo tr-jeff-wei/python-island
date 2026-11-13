@@ -34,7 +34,7 @@ export interface Territory {
   decoration?: 'trees' | 'pines' | 'cactus' | 'rocks' | 'hills' | 'flowers' | 'none';
 }
 
-export type QuestionCategory = 'variable' | 'loop' | 'ifelse' | 'inout' | 'str' | 'func';
+export type QuestionCategory = 'variable' | 'loop' | 'ifelse' | 'inout' | 'str' | 'func' | 'list';
 export type QuestionType = 'single' | 'boolean';
 
 export interface Question {
